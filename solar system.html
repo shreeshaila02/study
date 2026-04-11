@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solar System Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: rgb(94, 91, 91);
+      overflow: hidden;
+    }
+
+    .solar-system {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .sun {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      margin: -40px 0 0 -40px;
+      background: radial-gradient(circle, yellow, orange);
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgb(255, 166, 0);
+    }
+
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .planet {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      transform-origin: -50% 0;
+    }
+
+    .planet::before {
+      content: '';
+      display: block;
+      border-radius: 50%;
+    }
+
+    .mercury {
+      width: 100px;
+      height: 100px;
+      animation: orbit 8s linear infinite;
+    }
+
+    .mercury::before {
+      width: 10px;
+      height: 10px;
+      background: gray;
+      margin-left: 95px;
+    }
+
+    .venus {
+      width: 150px;
+      height: 150px;
+      animation: orbit 10s linear infinite;
+    }
+
+    .venus::before {
+      width: 14px;
+      height: 14px;
+      background: orange;
+      margin-left: 135px;
+    }
+
+    .earth {
+      width: 200px;
+      height: 200px;
+      animation: orbit 10s linear infinite;
+    }
+
+    .earth::before {
+      width: 16px;
+      height: 16px;
+      background: rgb(9, 222, 76);
+      margin-left: 180px;
+    }
+
+    .mars {
+      width: 250px;
+      height: 250px;
+      animation: orbit 15s linear infinite;
+    }
+
+    .mars::before {
+      width: 12px;
+      height: 12px;
+      background: red;
+      margin-left: 235px;
+    }
+
+    @keyframes orbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+     .guru {
+      width: 200px;
+      height: 200px;
+      animation: orbit 20s linear infinite;
+    }
+
+    .guru::before {
+      width: 16px;
+      height: 16px;
+      background: rgb(9, 27, 222);
+      margin-left: 180px;
+    }
+  </style>
+</head>
+<body>
+  <div class="solar-system">
+    <div class="sun"></div>
+    <div class="orbit mercury"><div class="planet mercury"></div></div>
+    <div class="orbit venus"><div class="planet venus"></div></div>
+    <div class="orbit earth"><div class="planet earth"></div></div>
+    <div class="orbit mars"><div class="planet mars"></div></div>
+    <div class="orbit guru"><div class="planet guru"></div></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canteen System</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #eef2f3;
+        }
+
+        /* Center login box */
+        #loginPage {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: white;
+            padding: 25px;
+            width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ef2c2c;
+        }
+
+        /* Menu Page */
+        #menuPage {
+            display: none;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .item {
+            background: white;
+            padding: 15px;
+            width: 30%;
+            border-radius: 6px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        .price {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ LOGIN PAGE -->
+<div id="loginPage">
+    <div class="login-box">
+        <h2>Canteen Login</h2>
+        <label>Username</label>
+        <input type="text" id="user">
+        <label>Password</label>
+        <input type="password" id="pass">
+        <button onclick="enterMenu()">Enter</button>
+    </div>
+</div>
+<!-- ✅ MENU PAGE -->
+<div id="menuPage">
+    <header>
+        <h1>Canteen Menu</h1>
+    </header>
+    <div class="menu-grid">
+        <div class="item">
+            <h3>Masala Dosa</h3>
+            <p>Crispy dosa with potato filling.</p>
+            <p class="price">₹40</p>
+        </div>
+        <div class="item">
+            <h3>Veg Fried Rice</h3>
+            <p>Rice with mixed vegetables.</p>
+            <p class="price">₹55</p>
+        </div>
+
+        <div class="item">
+            <h3>Paneer Roll</h3>
+            <p>Roll stuffed with paneer.</p>
+            <p class="price">₹50</p>
+        </div>
+        <div class="item">
+            <h3>egg Rice</h3>
+            <p>Rice with mixed with egg.</p>
+            <p class="price">₹50</p>
+        </div>
+    </div>
+<script>
+function enterMenu() {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("menuPage").style.display = "block";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake News Detector</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; text-align: center; }
+        textarea { width: 60%; height: 200px; margin: 20px; }
+        button { padding: 10px 20px; background: #007BFF; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>📰 Fake News Detection</h1>
+    <form action="/predict" method="post">
+        <textarea name="news" placeholder="Paste your news article here..."></textarea><br>
+        <button type="submit">Check</button>
+    </form>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; text-align: center; }
+        .result { margin-top: 50px; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    <div class="result">
+        <p><strong>News Type:</strong> {{ prediction }}</p>
+        <p><strong>Confidence:</strong> {{ confidence }}%</p>
+    </div>
+    <a href="/">🔙 Try another</a>
+</body>
+</html>

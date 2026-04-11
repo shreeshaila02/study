@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Chandana 💖</title>
+
+<style>
+body {
+    text-align: center;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    color: white;
+    font-family: Arial;
+    overflow: hidden;
+}
+
+h1 {
+    margin-top: 60px;
+    font-size: 38px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    background: #ff7aa2;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#message {
+    margin-top: 25px;
+    font-size: 20px;
+    min-height: 80px;
+    transition: 0.5s;
+}
+
+/* 🌟 Stars */
+.star {
+    position: fixed;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>✨ For me, Very Special person ✨</h1>
+
+<p id="message">Click to see something meaningful 💖</p>
+<button onclick="start()">Open 🎁</button>
+
+<script>
+
+// 🌟 Create stars
+for (let i = 0; i < 60; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+
+    let size = Math.random() * 3;
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+    star.style.animationDuration = (Math.random() * 5 + 3) + "s";
+
+    document.body.appendChild(star);
+}
+
+// main flow
+async function start() {
+    let msg = document.getElementById("message");
+
+    await show("Not everyone in life becomes important...");
+    await show("But some people become everything...");
+    await show("And without even realizing...");
+    await show("They become our happiness 💖");
+     await show("Thank you for coming into my life💖");
+
+    await delay(1000);
+
+    await show("🎉 Happy Birthday Chandana 🎉");
+
+    await delay(1000)
+
+    await show("💖 No matter what happens...");
+    await show("I will always stand with you.");
+    await show("Because you are not just my best friend...");
+    await show("You are my comfort, my smile, and my peace.");
+
+    await delay(1000);
+
+    await show("✨ Stay happy forever Chandana ✨");
+}
+// fade effect
+function show(text) {
+    return new Promise(resolve => {
+        let msg = document.getElementById("message");
+        msg.style.opacity = 0;
+
+        setTimeout(() => {
+            msg.innerText = text;
+            msg.style.opacity = 1;
+            setTimeout(resolve, 1800);
+        }, 500);
+    });
+}
+
+// typing effect
+function typeText(text) {
+    return new Promise(resolve => {
+        let msg = document.getElementById("message");
+        msg.innerText = "";
+        let i = 0;
+
+        function typing() {
+            if (i < text.length) {
+                msg.innerText += text.charAt(i);
+                i++;
+                setTimeout(typing, 35);
+            } else {
+                resolve();
+            }
+        }
+        typing();
+    });
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+</script>
+
+</body>
+</html>
+  

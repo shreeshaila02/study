@@ -1,0 +1,50 @@
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pulsing Heart</title>
+<style>
+  body { 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    min-height:100vh; 
+    background:#ebedf2;
+ }
+  .heart {
+    width: 120px;
+    height: 120px;
+    background: #ff3b6b;
+    position: relative;
+    transform: rotate(-45deg);
+    animation: beat 1s ease-in-out infinite;
+    box-shadow: 0 10px 30px rgba(19, 19, 19, 0.4);
+  }
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: #ff3b6b;
+    border-radius: 50%;
+  }
+  .heart::before { top: -60px; left: 0; }
+  .heart::after  { left: 60px; top: 0; }
+
+  @keyframes beat {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    20%       { transform: rotate(-45deg) scale(1.12); }
+    40%       { transform: rotate(-45deg) scale(0.98); }
+    60%       { transform: rotate(-45deg) scale(1.08); }
+    80%       { transform: rotate(-45deg) scale(1); }
+  }
+</style>
+</head>
+<body>
+  <div class="heart"></div>
+</body>
+</html>

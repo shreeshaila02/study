@@ -1,129 +1,92 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox, ttk
+import matplotlib.pyplot as plt
+import os
 
+# ---------------- ROOT ----------------
+root = tk.Tk()
+root.title("Login System 🔐")
+root.geometry("350x400")
+
+# ---------------- FILE FUNCTIONS ----------------
+def save_user(username, password):
+    with open("users.txt", "a") as f:
+        f.write(username.strip() + "," + password.strip() + "\n")
+
+def check_user(username, password):
+    if not os.path.exists("users.txt"):
+        return False
+
+    with open("users.txt", "r") as f:
+        for line in f:
+            u, p = line.strip().split(",")
+            if username.strip() == u and password.strip() == p:
+                return True
+    return False
+
+# ---------------- LOGIN ----------------
+def login():
+    username = entry_user.get().strip()
+    password = entry_pass.get().strip()
+
+    if username == "Username" or password == "Password":
+        messagebox.showerror("Error", "Enter valid details")
+        return
+
+    if check_user(username, password):
+        messagebox.showinfo("Success", "Login Successful!")
+        open_tracker()
+    else:
+        messagebox.showerror("Error", "Invalid credentials")
+
+# ---------------- SIGNUP ----------------
+def signup():
+    username = entry_user.get().strip()
+    password = entry_pass.get().strip()
+
+    if username == "Username" or password == "Password":
+        messagebox.showerror("Error", "Enter valid details")
+        return
+
+    if len(password) < 6 or not password.isdigit():
+        messagebox.showerror("Error", "Password must be at least 6 digits")
+        return
+
+    save_user(username, password)
+    messagebox.showinfo("Success", "Account Created!")
+
+# ---------------- TRACKER ----------------
 expenses = []
 
 def add_expense():
     amount = entry_amount.get()
     category = combo_category.get()
 
-    if amount == "" or not amount.isdigit():
+    if not amount.isdigit():
         return
 
     expense = f"{category} - ₹{amount}"
     expenses.append(expense)
-
     listbox.insert(tk.END, expense)
-    update_total()
 
+    update_total()
     entry_amount.delete(0, tk.END)
 
 def update_total():
     total = sum(int(item.split("₹")[1]) for item in expenses)
-
-    if total > 500:
-        label_total.config(text=f"Total: ₹{total} ⚠️", fg="red")
-    else:
-        label_total.config(text=f"Total: ₹{total}", fg="white")
-
-
-root = tk.Tk()
-root.title("Expense Tracker")
-root.geometry("350x500")
-root.configure(bg="#1e1e2f")
-
-# Title
-tk.Label(root, text="Expense Tracker ",
-         font=("Helvetica", 16, "bold"),
-         bg="#1e1e2f", fg="white").pack(pady=15)
-
-# Card Frame
-frame = tk.Frame(root, bg="#2c2c3e", bd=0)
-frame.pack(pady=10, padx=10, fill="both")
-
-entry_amount = tk.Entry(frame, font=("Arial", 12),
-                        bg="#3a3a4f", fg="gray", bd=0, justify="center")
-entry_amount.pack(pady=10, padx=20, fill="x")
-
-# Default placeholder
-entry_amount.insert(0, "Enter Amount")
-
-def on_focus_in(event):
-    if entry_amount.get() == "Enter Amount":
-        entry_amount.delete(0, tk.END)
-        entry_amount.config(fg="white")
-
-def on_focus_out(event):
-    if entry_amount.get() == "":
-        entry_amount.insert(0, "Enter Amount")
-        entry_amount.config(fg="gray")
-
-# Bind events
-entry_amount.bind("<FocusIn>", on_focus_in)
-entry_amount.bind("<FocusOut>", on_focus_out)
-
-
-combo_category = ttk.Combobox(frame,background="blue", values=["Food", "Travel", "Fun","shopping","Other"])
-combo_category.pack(pady=10, padx=20, fill="x")
-combo_category.set("Food")
-
-
-tk.Button(frame, text="Add Expense",
-          bg="#4CAF50", fg="white",
-          font=("Arial", 11, "bold"),
-          command=add_expense).pack(pady=15)
-
-# Listbox (Expenses)
-listbox = tk.Listbox(root,
-                     bg="#2c2c3e",
-                     fg="white",
-                     font=("Arial", 11),
-                     bd=0)
-listbox.pack(pady=10, padx=15, fill="both", expand=True)
-def add_expense():
-    amount = entry_amount.get()
-    category = combo_category.get()
-
-    if amount == "" or amount == "Enter Amount" or not amount.isdigit():
-        return
-
-    expense = f"{category} - ₹{amount}"
-    expenses.append(expense)
-
-    listbox.insert(tk.END, expense)
-    update_total()
-
-    entry_amount.delete(0, tk.END)
-
-# Total Label
-label_total = tk.Label(root,
-                       text="Total: ₹0",
-                       font=("Arial", 13, "bold"),
-                       bg="#1e1e2f",
-                       fg="white")
-label_total.pack(pady=10)
-
-import matplotlib.pyplot as plt
+    label_total.config(text=f"Total: ₹{total}")
 
 def show_graph():
     if not expenses:
-        print("No expenses to show")
+        messagebox.showinfo("Info", "No data to show")
         return
 
     category_totals = {}
 
     for item in expenses:
-        try:
-            category, amount = item.split(" - ₹")
-            amount = int(amount)
-        except:
-            continue  # skip wrong data
-
+        category, amount = item.split(" - ₹")
+        amount = int(amount)
         category_totals[category] = category_totals.get(category, 0) + amount
-
-    if not category_totals:
-        print("No valid data")
-        return
 
     labels = list(category_totals.keys())
     values = list(category_totals.values())
@@ -133,11 +96,78 @@ def show_graph():
     plt.title("Expenses by Category")
     plt.xlabel("Category")
     plt.ylabel("Amount (₹)")
-    
     plt.tight_layout()
-    plt.show(block=True)  
+    plt.show(block=True)
 
-tk.Button(root, text="Show Graph ",
-          command=show_graph).pack(pady=10)
+# ---------------- OPEN TRACKER ----------------
+def open_tracker():
+    tracker = tk.Toplevel(root)
+    tracker.title("Expense Tracker 💸")
+    tracker.geometry("400x500")
 
+    global entry_amount, combo_category, listbox, label_total
+
+    tk.Label(tracker, text="Expense Tracker 💸", font=("Arial", 16, "bold")).pack(pady=10)
+
+    entry_amount = tk.Entry(tracker)
+    entry_amount.pack(pady=5)
+
+    combo_category = ttk.Combobox(tracker, values=["Food", "Travel", "Fun", "Other"])
+    combo_category.set("Food")
+    combo_category.pack(pady=5)
+
+    tk.Button(tracker, text="Add Expense", command=add_expense).pack(pady=10)
+
+    listbox = tk.Listbox(tracker)
+    listbox.pack(pady=10, fill="both", expand=True)
+
+    label_total = tk.Label(tracker, text="Total: ₹0", font=("Arial", 12, "bold"))
+    label_total.pack(pady=10)
+
+    tk.Button(tracker, text="Show Graph 📊", command=show_graph).pack(pady=10)
+
+# ---------------- PLACEHOLDER LOGIC ----------------
+
+# USERNAME
+entry_user = tk.Entry(root, fg="gray")
+entry_user.pack(pady=10)
+entry_user.insert(0, "Username")
+
+def clear_user(event):
+    if entry_user.get() == "Username":
+        entry_user.delete(0, tk.END)
+        entry_user.config(fg="black")
+
+def restore_user(event):
+    if entry_user.get() == "":
+        entry_user.insert(0, "Username")
+        entry_user.config(fg="gray")
+
+entry_user.bind("<FocusIn>", clear_user)
+entry_user.bind("<FocusOut>", restore_user)
+
+# PASSWORD
+entry_pass = tk.Entry(root, fg="gray")
+entry_pass.pack(pady=10)
+entry_pass.insert(0, "Password")
+
+def clear_pass(event):
+    if entry_pass.get() == "Password":
+        entry_pass.delete(0, tk.END)
+        entry_pass.config(fg="black", show="*")
+
+def restore_pass(event):
+    if entry_pass.get() == "":
+        entry_pass.config(show="")
+        entry_pass.insert(0, "Password")
+        entry_pass.config(fg="gray")
+
+entry_pass.bind("<FocusIn>", clear_pass)
+entry_pass.bind("<FocusOut>", restore_pass)
+
+# ---------------- BUTTONS ----------------
+tk.Button(root, text="Login", width=15, command=login).pack(pady=10)
+tk.Button(root, text="Signup", width=15, command=signup).pack(pady=5)
+
+# ---------------- RUN ----------------
 root.mainloop()

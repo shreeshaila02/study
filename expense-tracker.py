@@ -103,4 +103,41 @@ label_total = tk.Label(root,
                        fg="white")
 label_total.pack(pady=10)
 
+import matplotlib.pyplot as plt
+
+def show_graph():
+    if not expenses:
+        print("No expenses to show")
+        return
+
+    category_totals = {}
+
+    for item in expenses:
+        try:
+            category, amount = item.split(" - ₹")
+            amount = int(amount)
+        except:
+            continue  # skip wrong data
+
+        category_totals[category] = category_totals.get(category, 0) + amount
+
+    if not category_totals:
+        print("No valid data")
+        return
+
+    labels = list(category_totals.keys())
+    values = list(category_totals.values())
+
+    plt.figure()
+    plt.bar(labels, values)
+    plt.title("Expenses by Category")
+    plt.xlabel("Category")
+    plt.ylabel("Amount (₹)")
+    
+    plt.tight_layout()
+    plt.show(block=True)  
+
+tk.Button(root, text="Show Graph ",
+          command=show_graph).pack(pady=10)
+
 root.mainloop()

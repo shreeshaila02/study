@@ -1,56 +1,77 @@
+
 import tkinter as tk
 from tkinter import messagebox
 
-app = tk.Tk()
-app.title("Login System")
-app.geometry("300x300")
+# ---------- LOGIN PAGE ----------
+root = tk.Tk()
+root.title("Login Page")
+root.geometry("300x250")
 
-# Save user data to file
-def register():
-    username = entry_user.get()
-    password = entry_pass.get()
-    
-    if username == "" or password == "":
-        messagebox.showwarning("Error", "Please enter all fields")
-        return
-    
-    with open("users.txt", "a") as file:
-        file.write(username + "," + password + "\n")
-    
-    messagebox.showinfo("Success", "Account Created ✅")
-
-# Login check
 def login():
-    username = entry_user.get()
-    password = entry_pass.get()
-    
-    try:
-        with open("users.txt", "r") as file:
-            users = file.readlines()
-            
-            for user in users:
-                u, p = user.strip().split(",")
-                if username == u and password == p:
-                    messagebox.showinfo("Login", "Login Successful ✅")
-                    return
-            
-        messagebox.showerror("Login", "Invalid Username or Password ❌")
-    
-    except FileNotFoundError:
-        messagebox.showerror("Error", "No users registered yet")
+    if entry_user.get() == "shailu" and entry_pass.get() == "9636":
+        messagebox.showinfo("Success", "Login Successful")
+        root.destroy()
+        open_sports_page()
+    else:
+        messagebox.showerror("Error", "Login Failed")
 
-# UI
-tk.Label(app, text="Login System", font=("Arial", 16)).pack(pady=10)
+tk.Label(root, text="Username").pack(pady=5)
+entry_user = tk.Entry(root)
+entry_user.pack(pady=5)
 
-tk.Label(app, text="Username").pack()
-entry_user = tk.Entry(app)
-entry_user.pack()
+tk.Label(root, text="Password").pack(pady=5)
+entry_pass = tk.Entry(root, show="*")
+entry_pass.pack(pady=5)
 
-tk.Label(app, text="Password").pack()
-entry_pass = tk.Entry(app, show="*")
-entry_pass.pack()
+tk.Button(root, text="Login", command=login).pack(pady=20)
 
-tk.Button(app, text="Register", command=register).pack(pady=5)
-tk.Button(app, text="Login", command=login).pack(pady=5)
+# ---------- SPORTS PAGE ----------
+def open_sports_page():
+    sports_win = tk.Tk()
+    sports_win.title("Select Sport")
+    sports_win.geometry("300x250")
 
-app.mainloop()
+    tk.Label(sports_win, text="Select One Sport").pack(pady=10)
+
+    sport_var = tk.StringVar()
+    sports = ["Cricket", "Football", "Kabaddi"]
+
+    for s in sports:
+        tk.Radiobutton(sports_win, text=s, variable=sport_var, value=s).pack()
+
+    def next_page():
+        selected_sport = sport_var.get()
+        print("Sport:", selected_sport)
+        sports_win.destroy()
+        open_food_page(selected_sport)
+
+    tk.Button(sports_win, text="Next", command=next_page).pack(pady=20)
+
+    sports_win.mainloop()
+
+# ---------- FOOD PAGE ----------
+def open_food_page(sport):
+    food_win = tk.Tk()
+    food_win.title("Select Food")
+    food_win.geometry("300x250")
+
+    tk.Label(food_win, text=f"Selected Sport: {sport}").pack(pady=5)
+    tk.Label(food_win, text="Select One Food").pack(pady=10)
+
+    food_var = tk.StringVar()
+    foods = ["Dosa", "Biryani", "Pizza"]
+
+    for f in foods:
+        tk.Radiobutton(food_win, text=f, variable=food_var, value=f).pack()
+
+    def submit():
+        selected_food = food_var.get()
+        print("Food:", selected_food)
+        messagebox.showinfo("Done", f"Sport: {sport}\nFood: {selected_food}")
+
+    tk.Button(food_win, text="Submit", command=submit).pack(pady=20)
+
+    food_win.mainloop()
+
+# ---------- RUN ----------
+root.mainloop()
